@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ching Reunion 2026 – T-Shirt Order Form</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #4a6fa5;
+    --teal-light: #6b8fc9;
+    --teal-dark: #2c4a7c;
+    --gold: #b07d2e;
+    --gold-light: #d4a843;
+    --sand: #f5f4f2;
+    --coral: #b03020;
+    --white: #ffffff;
+    --text: #1a1a1a;
+    --muted: #4a5568;
+    --border: #a8a096;
+    --input-bg: #fafaf9;
+    --section-bg: #ece9e4;
+    --error: #b03020;
+    --shadow: 0 4px 24px rgba(44,74,124,0.09);
+  }
+  html { font-size: 17px; }
+  *:focus-visible { outline: 3px solid #2c4a7c; outline-offset: 3px; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Lato', sans-serif;
+    background: var(--sand);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #1a2e50 0%, #2c4a7c 50%, #3d6494 100%);
+    color: white;
+    text-align: center;
+    padding: 48px 24px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '程';
+    position: absolute;
+    right: 5%;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: clamp(80px, 12vw, 140px);
+    opacity: 0.07;
+    font-weight: 900;
+    color: white;
+    pointer-events: none;
+  }
+  .header-inner {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .header-kanji {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    opacity: 0.85;
+    margin-bottom: 12px;
+    line-height: 1;
+  }
+  .header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 5vw, 2.8rem);
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .header h1 span { color: #d4a843; }
+  .header p {
+    font-size: 1.05rem;
+    opacity: 0.9;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+  .header-badge {
+    margin-top: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,0.15);
+    border: 2px solid rgba(255,255,255,0.4);
+    border-radius: 30px;
+    padding: 7px 22px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .shirt-icon { font-size: 1.1em; }
+
+  /* PROGRESS */
+  .progress-bar-wrap {
+    background: var(--teal-dark);
+    padding: 14px 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+  }
+  .progress-steps {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+    position: relative;
+  }
+  .step-item:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2px;
+    width: 100%;
+    background: rgba(255,255,255,0.2);
+    z-index: 0;
+  }
+  .step-dot {
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.3);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700; color: white;
+    flex-shrink: 0;
+    transition: all 0.3s;
+    position: relative; z-index: 1;
+  }
+  .step-dot.active { background: var(--gold); border-color: var(--gold-light); }
+  .step-dot.done { background: var(--teal-light); border-color: white; }
+  .step-label {
+    font-size: 0.72rem; color: rgba(255,255,255,0.7);
+    font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+    display: none;
+  }
+  @media(min-width: 500px) { .step-label { display: block; } }
+  .step-item.active .step-label { color: var(--gold-light); }
+  .step-item.done .step-label { color: rgba(255,255,255,0.9); }
+
+  /* MAIN */
+  .main { max-width: 800px; margin: 0 auto; padding: 32px 16px 60px; }
+
+  /* PAGES */
+  .form-page { display: none; animation: fadeIn 0.4s ease; }
+  .form-page.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* PAGE HEADING */
+  .page-heading {
+    margin-bottom: 28px;
+    border-left: 5px solid var(--gold);
+    padding-left: 16px;
+  }
+  .page-heading .eyebrow {
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; color: var(--gold); margin-bottom: 4px;
+  }
+  .page-heading h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--teal-dark);
+    font-weight: 700;
+  }
+  .page-heading p { color: var(--muted); margin-top: 6px; font-size: 0.95rem; }
+
+  /* CARD */
+  .card {
+    background: white;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    padding: 28px;
+    margin-bottom: 20px;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--teal-dark);
+    font-weight: 700;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* FIELDS */
+  .field { margin-bottom: 18px; }
+  .field label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.88rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--teal-dark);
+    margin-bottom: 6px;
+  }
+  .field label .req { color: var(--coral); }
+  .field input, .field select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 8px;
+    background: var(--input-bg);
+    font-family: 'Lato', sans-serif;
+    font-size: 1rem;
+    color: var(--text);
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .field input:focus, .field select:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 0 3px rgba(74,111,165,0.15);
+    outline: none;
+  }
+  .field .hint { font-size: 0.82rem; color: var(--muted); margin-top: 4px; }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media(max-width: 500px) { .field-row { grid-template-columns: 1fr; } }
+  .err-msg { color: var(--error); font-size: 0.82rem; margin-top: 4px; display: none; }
+  .field.has-error input, .field.has-error select { border-color: var(--error); }
+  .field.has-error .err-msg { display: block; }
+
+  /* SHIRT TABLE */
+  .shirt-table-wrap { overflow-x: auto; margin-top: 8px; }
+  .shirt-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  .shirt-table thead th {
+    background: var(--teal-dark);
+    color: white;
+    padding: 10px 14px;
+    text-align: left;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+  }
+  .shirt-table thead th:last-child,
+  .shirt-table thead th:nth-child(3) { text-align: right; }
+  .shirt-table tbody tr { border-bottom: 1px solid #eee; }
+  .shirt-table tbody tr:last-child { border-bottom: none; }
+  .shirt-table tbody td { padding: 12px 14px; vertical-align: middle; }
+  .shirt-table tbody td:nth-child(3),
+  .shirt-table tbody td:nth-child(4) { text-align: right; }
+  .shirt-table .size-label {
+    font-weight: 700;
+    color: var(--teal-dark);
+    font-size: 1rem;
+  }
+  .qty-input {
+    width: 80px !important;
+    text-align: center;
+    padding: 8px 10px !important;
+    font-size: 1.05rem !important;
+    font-weight: 700 !important;
+  }
+  .qty-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .qty-btn {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 2px solid var(--teal);
+    background: white;
+    color: var(--teal-dark);
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.15s, color 0.15s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .qty-btn:hover { background: var(--teal); color: white; }
+  .row-total { font-weight: 700; color: var(--teal-dark); font-size: 1rem; }
+  .shirt-table tfoot td {
+    padding: 14px;
+    background: var(--section-bg);
+    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--teal-dark);
+  }
+  .shirt-table tfoot td:last-child { text-align: right; font-size: 1.2rem; }
+
+  /* TOTAL BANNER */
+  .total-banner {
+    background: linear-gradient(135deg, var(--teal-dark), var(--teal));
+    color: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .total-banner .label { font-size: 0.9rem; opacity: 0.85; text-transform: uppercase; letter-spacing: 1px; font-weight: 700; }
+  .total-banner .amount { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; color: var(--gold-light); }
+
+  /* PAYMENT INFO */
+  .payment-box {
+    background: #fff8ec;
+    border: 1.5px solid var(--gold);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .payment-box h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--gold);
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+  }
+  .payment-option {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+  .payment-option:last-child { margin-bottom: 0; }
+  .pay-num {
+    background: var(--gold);
+    color: white;
+    border-radius: 50%;
+    width: 22px; height: 22px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.75rem; font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .payment-note {
+    background: #fdecea;
+    border-left: 4px solid var(--coral);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    color: var(--coral);
+    margin-top: 12px;
+    font-style: italic;
+  }
+
+  /* DEADLINE */
+  .deadline-banner {
+    background: var(--coral);
+    color: white;
+    border-radius: 10px;
+    padding: 12px 20px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+  }
+
+  /* REVIEW */
+  .review-section { margin-bottom: 18px; }
+  .review-label {
+    font-size: 0.78rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--muted); margin-bottom: 4px;
+  }
+  .review-value { font-size: 1rem; color: var(--text); }
+  .review-table { width: 100%; border-collapse: collapse; }
+  .review-table th {
+    background: var(--section-bg);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--teal-dark);
+    font-weight: 700;
+  }
+  .review-table th:last-child { text-align: right; }
+  .review-table th:nth-child(2) { text-align: center; }
+  .review-table td { padding: 10px 12px; border-bottom: 1px solid #eee; font-size: 0.94rem; }
+  .review-table td:last-child { text-align: right; font-weight: 700; color: var(--teal-dark); }
+  .review-table td:nth-child(2) { text-align: center; }
+  .review-table tfoot td {
+    padding: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    background: var(--section-bg);
+    border-top: 2px solid var(--teal-dark);
+  }
+  .review-table tfoot td:last-child { text-align: right; color: var(--teal-dark); }
+  .no-items { color: var(--muted); font-style: italic; text-align: center; padding: 20px; }
+
+  /* NAVIGATION */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 13px 28px;
+    border-radius: 8px;
+    font-family: 'Lato', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .btn-primary {
+    background: var(--teal-dark);
+    color: white;
+    box-shadow: 0 4px 14px rgba(44,74,124,0.25);
+  }
+  .btn-primary:hover { background: var(--teal); transform: translateY(-1px); }
+  .btn-secondary {
+    background: white;
+    color: var(--teal-dark);
+    border: 2px solid var(--teal-dark);
+  }
+  .btn-secondary:hover { background: var(--section-bg); }
+  .btn-submit {
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    color: white;
+    box-shadow: 0 4px 14px rgba(176,125,46,0.3);
+    font-size: 1rem;
+    padding: 14px 36px;
+  }
+  .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(176,125,46,0.4); }
+  .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+  /* SUCCESS PAGE */
+  .success-page {
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .success-icon {
+    font-size: 4rem;
+    margin-bottom: 16px;
+    animation: bounce 0.5s ease;
+  }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+  .success-page h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--teal-dark);
+    margin-bottom: 12px;
+  }
+  .success-page p { color: var(--muted); font-size: 1rem; max-width: 500px; margin: 0 auto 20px; }
+  .success-details {
+    background: white;
+    border-radius: 12px;
+    border: 1.5px solid var(--border);
+    padding: 24px;
+    max-width: 500px;
+    margin: 20px auto;
+    text-align: left;
+  }
+  .success-details h3 {
+    font-family: 'Playfair Display', serif;
+    color: var(--teal-dark);
+    margin-bottom: 14px;
+    font-size: 1.1rem;
+  }
+  .success-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 0.92rem;
+  }
+  .success-row:last-child { border-bottom: none; }
+  .success-row .slabel { color: var(--muted); }
+  .success-row .sval { font-weight: 700; color: var(--text); }
+  .success-total {
+    background: var(--teal-dark);
+    color: white;
+    border-radius: 8px;
+    padding: 12px 16px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 12px;
+    font-weight: 700;
+    font-size: 1.05rem;
+  }
+  .success-total .stotal { color: var(--gold-light); font-size: 1.2rem; }
+
+  /* SHIRT PREVIEW */
+  .shirt-preview {
+    background: var(--section-bg);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border: 1px solid var(--border);
+  }
+  .shirt-preview-icon { font-size: 2.2rem; flex-shrink: 0; }
+  .shirt-preview-info h4 { font-family: 'Playfair Display', serif; color: var(--teal-dark); margin-bottom: 2px; font-size: 1rem; }
+  .shirt-preview-info p { font-size: 0.85rem; color: var(--muted); }
+
+  /* LOADING */
+  .spinner {
+    display: inline-block;
+    width: 18px; height: 18px;
+    border: 3px solid rgba(255,255,255,0.4);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media(max-width: 480px) {
+    .card { padding: 18px; }
+    .shirt-table thead th, .shirt-table tbody td { padding: 8px 8px; }
+    .qty-input { width: 60px !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div class="header-kanji">程</div>
+    <h1>Ching Yan Quong <span>Family Reunion</span></h1>
+    <p>T-Shirt Order Form</p>
+    <div class="header-badge">
+      <span class="shirt-icon">👕</span>
+      Order Deadline: Wednesday, June 18, 2026
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+  <div class="progress-steps">
+    <div class="step-item active" id="step-tab-1">
+      <div class="step-dot active" id="step-dot-1">1</div>
+      <span class="step-label">Your Info</span>
+    </div>
+    <div class="step-item" id="step-tab-2">
+      <div class="step-dot" id="step-dot-2">2</div>
+      <span class="step-label">Order Shirts</span>
+    </div>
+    <div class="step-item" id="step-tab-3">
+      <div class="step-dot" id="step-dot-3">3</div>
+      <span class="step-label">Review</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- PAGE 1: Contact Info -->
+  <div class="form-page active" id="page-1">
+    <div class="page-heading">
+      <div class="eyebrow">Step 1 of 3</div>
+      <h2>Your Information</h2>
+      <p>Please provide your contact details so we can reach you about your order.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👤 Contact Details</div>
+      <div class="field-row">
+        <div class="field" id="field-firstName">
+          <label>First Name <span class="req">*</span></label>
+          <input type="text" id="firstName" placeholder="First name" autocomplete="given-name">
+          <div class="err-msg">Please enter your first name.</div>
+        </div>
+        <div class="field" id="field-lastName">
+          <label>Last Name <span class="req">*</span></label>
+          <input type="text" id="lastName" placeholder="Last name" autocomplete="family-name">
+          <div class="err-msg">Please enter your last name.</div>
+        </div>
+      </div>
+      <div class="field" id="field-email">
+        <label>Email Address <span class="req">*</span></label>
+        <input type="email" id="email" placeholder="your@email.com" autocomplete="email">
+        <div class="hint">Order confirmation will be sent here.</div>
+        <div class="err-msg">Please enter a valid email address.</div>
+      </div>
+      <div class="field" id="field-phone">
+        <label>Contact Number <span class="req">*</span></label>
+        <input type="tel" id="phone" placeholder="(808) 555-1234" autocomplete="tel">
+        <div class="err-msg">Please enter your phone number.</div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-primary" onclick="goToPage(2)">Continue to Order →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2: Shirt Order -->
+  <div class="form-page" id="page-2">
+    <div class="page-heading">
+      <div class="eyebrow">Step 2 of 3</div>
+      <h2>Select Your Shirts</h2>
+      <p>Enter the quantity for each size. Prices vary by size — S: $2.00, M–XXL: $12.00, XXXL: $15.00.</p>
+    </div>
+
+    <div class="shirt-preview">
+      <div class="shirt-preview-icon">👕</div>
+      <div class="shirt-preview-info">
+        <h4>2026 Ching Family Reunion T-Shirt</h4>
+        <p>Cotton · Heather Grey · Family crest on front (left chest) · Family tree on back · S: $2.00 &nbsp;|&nbsp; M–XXL: $12.00 &nbsp;|&nbsp; XXXL: $15.00</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">🛒 Adult T-Shirt Sizes</div>
+      <div class="shirt-table-wrap">
+        <table class="shirt-table">
+          <thead>
+            <tr>
+              <th>Size</th>
+              <th>Price Each</th>
+              <th style="text-align:center">Quantity</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="size-label">S</span></td>
+              <td>$2.00</td>
+              <td>
+                <div class="qty-wrap" style="justify-content:center">
+                  <button class="qty-btn" onclick="changeQty('S',-1)" aria-label="Decrease S">−</button>
+                  <input class="qty-input field" type="number" id="qty-S" value="0" min="0" max="99" oninput="updateTotals()" aria-label="Quantity size S">
+                  <button class="qty-btn" onclick="changeQty('S',1)" aria-label="Increase S">+</button>
+                </div>
+              </td>
+              <td><span class="row-total" id="total-S">$0.00</span></td>
+            </tr>
+            <tr>
+              <td><span class="size-label">M</span></td>
+              <td>$12.00</td>
+              <td>
+                <div class="qty-wrap" style="justify-content:center">
+                  <button class="qty-btn" onclick="changeQty('M',-1)" aria-label="Decrease M">−</button>
+                  <input class="qty-input field" type="number" id="qty-M" value="0" min="0" max="99" oninput="updateTotals()" aria-label="Quantity size M">
+                  <button class="qty-btn" onclick="changeQty('M',1)" aria-label="Increase M">+</button>
+                </div>
+              </td>
+              <td><span class="row-total" id="total-M">$0.00</span></td>
+            </tr>
+            <tr>
+              <td><span class="size-label">L</span></td>
+              <td>$12.00</td>
+              <td>
+                <div class="qty-wrap" style="justify-content:center">
+                  <button class="qty-btn" onclick="changeQty('L',-1)" aria-label="Decrease L">−</button>
+                  <input class="qty-input field" type="number" id="qty-L" value="0" min="0" max="99" oninput="updateTotals()" aria-label="Quantity size L">
+                  <button class="qty-btn" onclick="changeQty('L',1)" aria-label="Increase L">+</button>
+                </div>
+              </td>
+              <td><span class="row-total" id="total-L">$0.00</span></td>
+            </tr>
+            <tr>
+              <td><span class="size-label">XL</span></td>
+              <td>$12.00</td>
+              <td>
+                <div class="qty-wrap" style="justify-content:center">
+                  <button class="qty-btn" onclick="changeQty('XL',-1)" aria-label="Decrease XL">−</button>
+                  <input class="qty-input field" type="number" id="qty-XL" value="0" min="0" max="99" oninput="updateTotals()" aria-label="Quantity size XL">
+                  <button class="qty-btn" onclick="changeQty('XL',1)" aria-label="Increase XL">+</button>
+                </div>
+              </td>
+              <td><span class="row-total" id="total-XL">$0.00</span></td>
+            </tr>
+            <tr>
+              <td><span class="size-label">XXL</span></td>
+              <td>$12.00</td>
+              <td>
+                <div class="qty-wrap" style="justify-content:center">
+                  <button class="qty-btn" onclick="changeQty('XXL',-1)" aria-label="Decrease XXL">−</button>
+                  <input class="qty-input field" type="number" id="qty-XXL" value="0" min="0" max="99" oninput="updateTotals()" aria-label="Quantity size XXL">
+                  <button class="qty-btn" onclick="changeQty('XXL',1)" aria-label="Increase XXL">+</button>
+                </div>
+              </td>
+              <td><span class="row-total" id="total-XXL">$0.00</span></td>
+            </tr>
+            <tr>
+              <td><span class="size-label">XXXL</span></td>
+              <td>$15.00</td>
+              <td>
+                <div class="qty-wrap" style="justify-content:center">
+                  <button class="qty-btn" onclick="changeQty('XXXL',-1)" aria-label="Decrease XXXL">−</button>
+                  <input class="qty-input field" type="number" id="qty-XXXL" value="0" min="0" max="99" oninput="updateTotals()" aria-label="Quantity size XXXL">
+                  <button class="qty-btn" onclick="changeQty('XXXL',1)" aria-label="Increase XXXL">+</button>
+                </div>
+              </td>
+              <td><span class="row-total" id="total-XXXL">$0.00</span></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3">Total Shirts: <strong id="grand-qty">0</strong></td>
+              <td id="grand-total-cell">$0.00</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div id="qty-error" style="color:var(--error);font-size:0.85rem;margin-top:10px;display:none;">
+        ⚠️ Please order at least one shirt to continue.
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goToPage(1)">← Back</button>
+      <button class="btn btn-primary" onclick="goToPage(3)">Review Order →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 3: Review & Submit -->
+  <div class="form-page" id="page-3">
+    <div class="page-heading">
+      <div class="eyebrow">Step 3 of 3</div>
+      <h2>Review &amp; Submit</h2>
+      <p>Please review your order carefully before submitting.</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👤 Orderer</div>
+      <div class="field-row" style="gap:20px">
+        <div class="review-section">
+          <div class="review-label">Name</div>
+          <div class="review-value" id="rv-name">—</div>
+        </div>
+        <div class="review-section">
+          <div class="review-label">Phone</div>
+          <div class="review-value" id="rv-phone">—</div>
+        </div>
+      </div>
+      <div class="review-section">
+        <div class="review-label">Email</div>
+        <div class="review-value" id="rv-email">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">👕 Order Summary</div>
+      <table class="review-table">
+        <thead>
+          <tr>
+            <th>Size</th>
+            <th>Qty</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody id="rv-rows">
+          <tr><td colspan="3" class="no-items">No items selected.</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2">Total Due</td>
+            <td id="rv-total">$0.00</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="total-banner">
+      <div>
+        <div class="label">Order Total</div>
+        <div style="font-size:0.8rem;opacity:0.75;margin-top:2px">Due by Wednesday, June 18, 2026</div>
+      </div>
+      <div class="amount" id="rv-total-banner">$0.00</div>
+    </div>
+
+    <div class="payment-box">
+      <h3>💳 Payment Options</h3>
+      <div class="payment-option">
+        <div class="pay-num">1</div>
+        <div>
+          <strong>Mail check payable to:</strong><br>
+          Kerri Mokulehua · 7251 Pulehu Street · Honolulu, HI 96825
+        </div>
+      </div>
+      <div class="payment-option">
+        <div class="pay-num">2</div>
+        <div><strong>Venmo:</strong> @Kerri-Mokulehua</div>
+      </div>
+      <div class="payment-option">
+        <div class="pay-num">3</div>
+        <div><strong>PayPal:</strong> @kerrimoku <span style="color:var(--muted)">(shows as Kerri Rawlins)</span></div>
+      </div>
+      <div class="payment-note">
+        For Venmo &amp; PayPal: email a photo or screenshot of your completed order form and note which platform you used. Contact: Kerri Mokulehua · kerrimokulehua@gmail.com · 808-781-7096
+      </div>
+    </div>
+
+    <div class="deadline-banner">
+      ⚠️ &nbsp; Order &amp; Payment Due: Wednesday, June 18, 2026
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-secondary" onclick="goToPage(2)">← Edit Order</button>
+      <button class="btn btn-submit" id="submitBtn" onclick="submitOrder()">Submit Order 🌺</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS PAGE -->
+  <div class="form-page" id="success-page">
+    <div class="success-page">
+      <div class="success-icon">🌺</div>
+      <h2>Order Submitted!</h2>
+      <p>Thank you, <strong id="success-name"></strong>! Your t-shirt order has been received. A confirmation has been sent to <strong id="success-email"></strong>.</p>
+
+      <div class="success-details">
+        <h3>📋 Your Order</h3>
+        <div id="success-order-rows"></div>
+        <div class="success-total">
+          <span>Total Due</span>
+          <span class="stotal" id="success-total-amt"></span>
+        </div>
+      </div>
+
+      <p style="margin-top:16px;font-size:0.88rem;color:var(--muted);">
+        Questions? Contact Kerri Mokulehua at <a href="mailto:kerrimokulehua@gmail.com" style="color:var(--teal)">kerrimokulehua@gmail.com</a> or 808-781-7096.
+      </p>
+
+      <button class="btn btn-secondary" onclick="resetForm()" style="margin-top:20px;">Submit Another Order</button>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ===================== CONFIGURATION =====================
+// Replace with your deployed Google Apps Script Web App URL
+const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+
+// Data manager email — receives a copy of every order
+const MANAGER_EMAIL = 'kerrimokulehua@gmail.com';
+
+// ===================== SIZES =====================
+const SIZES = ['S','M','L','XL','XXL','XXXL'];
+const PRICES = { S: 2, M: 12, L: 12, XL: 12, XXL: 12, XXXL: 15 };
+
+// ===================== QTY HELPERS =====================
+function changeQty(size, delta) {
+  const el = document.getElementById('qty-' + size);
+  const val = Math.max(0, parseInt(el.value || 0) + delta);
+  el.value = val;
+  updateTotals();
+}
+
+function updateTotals() {
+  let grandQty = 0, grandTotal = 0;
+  SIZES.forEach(s => {
+    const qty = Math.max(0, parseInt(document.getElementById('qty-'+s).value) || 0);
+    const sub = qty * PRICES[s];
+    document.getElementById('total-'+s).textContent = '$' + sub.toFixed(2);
+    grandQty += qty;
+    grandTotal += sub;
+  });
+  document.getElementById('grand-qty').textContent = grandQty;
+  document.getElementById('grand-total-cell').textContent = '$' + grandTotal.toFixed(2);
+}
+
+// ===================== NAVIGATION =====================
+function goToPage(n) {
+  if (n === 2 && !validatePage1()) return;
+  if (n === 3 && !validatePage2()) return;
+  if (n === 3) buildReview();
+
+  document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + n).classList.add('active');
+
+  // Update progress
+  for (let i = 1; i <= 3; i++) {
+    const dot = document.getElementById('step-dot-' + i);
+    const tab = document.getElementById('step-tab-' + i);
+    dot.classList.remove('active','done');
+    tab.classList.remove('active','done');
+    if (i < n) { dot.classList.add('done'); tab.classList.add('done'); dot.textContent = '✓'; }
+    else if (i === n) { dot.classList.add('active'); tab.classList.add('active'); dot.textContent = i; }
+    else { dot.textContent = i; }
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===================== VALIDATE PAGE 1 =====================
+function validatePage1() {
+  let ok = true;
+  const checks = [
+    { id: 'firstName', fieldId: 'field-firstName', test: v => v.trim().length > 0 },
+    { id: 'lastName',  fieldId: 'field-lastName',  test: v => v.trim().length > 0 },
+    { id: 'email',     fieldId: 'field-email',     test: v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()) },
+    { id: 'phone',     fieldId: 'field-phone',     test: v => v.trim().length >= 7 },
+  ];
+  checks.forEach(c => {
+    const el = document.getElementById(c.id);
+    const fi = document.getElementById(c.fieldId);
+    if (!c.test(el.value)) { fi.classList.add('has-error'); ok = false; }
+    else { fi.classList.remove('has-error'); }
+  });
+  return ok;
+}
+
+// ===================== VALIDATE PAGE 2 =====================
+function validatePage2() {
+  const total = SIZES.reduce((s, sz) => s + (parseInt(document.getElementById('qty-'+sz).value)||0), 0);
+  const errEl = document.getElementById('qty-error');
+  if (total === 0) { errEl.style.display = 'block'; return false; }
+  errEl.style.display = 'none';
+  return true;
+}
+
+// ===================== BUILD REVIEW =====================
+function buildReview() {
+  document.getElementById('rv-name').textContent =
+    (document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value).trim();
+  document.getElementById('rv-phone').textContent = document.getElementById('phone').value;
+  document.getElementById('rv-email').textContent = document.getElementById('email').value;
+
+  let rows = '', grandTotal = 0;
+  SIZES.forEach(s => {
+    const qty = parseInt(document.getElementById('qty-'+s).value) || 0;
+    if (qty > 0) {
+      const sub = qty * PRICES[s];
+      grandTotal += sub;
+      rows += `<tr>
+        <td><strong>${s}</strong></td>
+        <td>${qty}</td>
+        <td>$${sub.toFixed(2)}</td>
+      </tr>`;
+    }
+  });
+
+  document.getElementById('rv-rows').innerHTML = rows || '<tr><td colspan="3" class="no-items">No items selected.</td></tr>';
+  document.getElementById('rv-total').textContent = '$' + grandTotal.toFixed(2);
+  document.getElementById('rv-total-banner').textContent = '$' + grandTotal.toFixed(2);
+}
+
+// ===================== SUBMIT =====================
+function showSubmitError(msg) {
+  let el = document.getElementById('submit-error');
+  if (!el) {
+    el = document.createElement('div');
+    el.id = 'submit-error';
+    el.style.cssText = 'color:var(--error);background:#fdecea;border:1.5px solid var(--error);border-radius:8px;padding:12px 16px;margin-top:14px;font-size:0.9rem;';
+    document.getElementById('submitBtn').insertAdjacentElement('afterend', el);
+  }
+  el.textContent = '⚠️ ' + msg;
+  el.style.display = 'block';
+}
+
+function clearSubmitError() {
+  const el = document.getElementById('submit-error');
+  if (el) el.style.display = 'none';
+}
+
+async function submitOrder() {
+  clearSubmitError();
+  const submitBtn = document.getElementById('submitBtn');
+  submitBtn.disabled = true;
+  submitBtn.innerHTML = '<span class="spinner"></span> Submitting…';
+
+  try {
+    const firstName = document.getElementById('firstName').value.trim();
+    const lastName  = document.getElementById('lastName').value.trim();
+    const email     = document.getElementById('email').value.trim();
+    const phone     = document.getElementById('phone').value.trim();
+
+    // Re-validate just in case
+    if (!firstName || !lastName || !email || !phone) {
+      throw new Error('Missing contact information. Please go back to Step 1 and fill in all fields.');
+    }
+
+    const orderItems = {};
+    let grandTotal = 0;
+    SIZES.forEach(s => {
+      const qty = parseInt(document.getElementById('qty-'+s).value) || 0;
+      orderItems[s] = qty;
+      grandTotal += qty * PRICES[s];
+    });
+
+    const totalShirts = SIZES.reduce((sum, s) => sum + orderItems[s], 0);
+    if (totalShirts === 0) {
+      throw new Error('No shirts selected. Please go back to Step 2 and add at least one shirt.');
+    }
+
+    const submission = {
+      submittedAt: new Date().toISOString(),
+      firstName, lastName, email, phone,
+      qty_S:    orderItems.S,
+      qty_M:    orderItems.M,
+      qty_L:    orderItems.L,
+      qty_XL:   orderItems.XL,
+      qty_XXL:  orderItems.XXL,
+      qty_XXXL: orderItems.XXXL,
+      totalShirts,
+      totalAmount: grandTotal,
+      managerEmail: MANAGER_EMAIL
+    };
+
+    // Send to Google Sheet (skip if URL not configured)
+    const isConfigured = GOOGLE_SHEET_URL && GOOGLE_SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+    if (isConfigured) {
+      try {
+        await fetch(GOOGLE_SHEET_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(submission)
+        });
+      } catch (fetchErr) {
+        // Log but don't block — sheet sync failure shouldn't stop the user
+        console.warn('Sheet sync failed:', fetchErr);
+      }
+    } else {
+      console.info('Google Sheet URL not configured — skipping sync. Submission data:', submission);
+    }
+
+    // Build success rows
+    let sRows = '', total = 0;
+    SIZES.forEach(s => {
+      const qty = orderItems[s];
+      if (qty > 0) {
+        const sub = qty * PRICES[s];
+        total += sub;
+        sRows += `<div class="success-row"><span class="slabel">Size ${s} × ${qty}</span><span class="sval">$${sub.toFixed(2)}</span></div>`;
+      }
+    });
+
+    // Show success
+    document.getElementById('success-name').textContent = firstName;
+    document.getElementById('success-email').textContent = email;
+    document.getElementById('success-order-rows').innerHTML = sRows;
+    document.getElementById('success-total-amt').textContent = '$' + total.toFixed(2);
+
+    document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
+    document.getElementById('success-page').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (err) {
+    console.error('Submit error:', err);
+    showSubmitError(err.message || 'Something went wrong. Please try again or contact Kerri directly.');
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Submit Order 🌺';
+  }
+}
+
+// ===================== RESET =====================
+function resetForm() {
+  document.getElementById('firstName').value = '';
+  document.getElementById('lastName').value  = '';
+  document.getElementById('email').value     = '';
+  document.getElementById('phone').value     = '';
+  SIZES.forEach(s => { document.getElementById('qty-'+s).value = 0; });
+  updateTotals();
+
+  // Reset step dots
+  for (let i = 1; i <= 3; i++) {
+    const dot = document.getElementById('step-dot-' + i);
+    const tab = document.getElementById('step-tab-' + i);
+    dot.classList.remove('active','done');
+    tab.classList.remove('active','done');
+    dot.textContent = i;
+  }
+  document.getElementById('step-dot-1').classList.add('active');
+  document.getElementById('step-tab-1').classList.add('active');
+
+  document.querySelectorAll('.form-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-1').classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Init
+updateTotals();
+</script>
+
+<!-- ===================== GOOGLE APPS SCRIPT SETUP INSTRUCTIONS =====================
+
+To wire up Google Sheets tracking + email confirmations:
+
+1. Go to https://script.google.com and create a new project.
+2. Paste the following code into the editor:
+
+----------- APPS SCRIPT CODE -----------
+
+const SHEET_ID = 'YOUR_GOOGLE_SHEET_ID';
+const MANAGER_EMAIL = 'kerrimokulehua@gmail.com';
+const SIZES = ['S','M','L','XL','XXL','XXXL'];
+
+function doPost(e) {
+  const data = JSON.parse(e.postData.contents);
+
+  // Write to sheet
+  const ss = SpreadsheetApp.openById(SHEET_ID);
+  let sheet = ss.getSheetByName('T-Shirt Orders');
+  if (!sheet) {
+    sheet = ss.insertSheet('T-Shirt Orders');
+    sheet.appendRow([
+      'Timestamp','First Name','Last Name','Email','Phone',
+      'S','M','L','XL','XXL','XXXL','Total Shirts','Total Amount'
+    ]);
+  }
+  sheet.appendRow([
+    new Date(data.submittedAt),
+    data.firstName, data.lastName, data.email, data.phone,
+    data.qty_S, data.qty_M, data.qty_L, data.qty_XL, data.qty_XXL, data.qty_XXXL,
+    data.totalShirts,
+    data.totalAmount
+  ]);
+
+  // Build order summary HTML for emails
+  const PRICES = {S:2, M:12, L:12, XL:12, XXL:12, XXXL:15};
+  let orderLines = SIZES.map(s => {
+    const qty = data['qty_'+s];
+    if (qty > 0) return `<tr><td>${s}</td><td>${qty}</td><td>$${(qty*PRICES[s]).toFixed(2)}</td></tr>`;
+    return '';
+  }).join('');
+
+  const emailBody = `
+  <div style="font-family:Georgia,serif;max-width:580px;margin:0 auto;color:#2a2a2a;">
+    <div style="background:linear-gradient(135deg,#1a2e50,#2c4a7c);color:white;padding:32px;text-align:center;border-radius:12px 12px 0 0;">
+      <div style="font-size:2rem;margin-bottom:8px;">程</div>
+      <h1 style="font-size:1.6rem;margin:0 0 4px;">Ching Family Reunion 2026</h1>
+      <p style="margin:0;opacity:0.85;font-size:0.95rem;">T-Shirt Order Confirmation</p>
+    </div>
+    <div style="background:white;padding:28px;border:1px solid #ddd;">
+      <p style="margin:0 0 18px;">Hi <strong>${data.firstName}</strong>,</p>
+      <p style="margin:0 0 20px;">Your t-shirt order has been received! Here's a summary:</p>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+        <thead><tr style="background:#2c4a7c;color:white;">
+          <th style="padding:8px 12px;text-align:left;">Size</th>
+          <th style="padding:8px 12px;text-align:left;">Qty</th>
+          <th style="padding:8px 12px;text-align:left;">Subtotal</th>
+        </tr></thead>
+        <tbody>${orderLines}</tbody>
+        <tfoot><tr style="background:#ece9e4;font-weight:bold;">
+          <td colspan="2" style="padding:10px 12px;">Total Due</td>
+          <td style="padding:10px 12px;">$${Number(data.totalAmount).toFixed(2)}</td>
+        </tr></tfoot>
+      </table>
+      <div style="background:#fff8ec;border:1.5px solid #b07d2e;border-radius:10px;padding:18px;margin-bottom:16px;">
+        <strong style="color:#b07d2e;">💳 Payment Options</strong><br><br>
+        1. <strong>Check payable to:</strong> Kerri Mokulehua · 7251 Pulehu St, Honolulu HI 96825<br>
+        2. <strong>Venmo:</strong> @Kerri-Mokulehua<br>
+        3. <strong>PayPal:</strong> @kerrimoku<br><br>
+        <em>For Venmo/PayPal: email a screenshot of this confirmation to kerrimokulehua@gmail.com</em>
+      </div>
+      <div style="background:#b03020;color:white;border-radius:8px;padding:10px 14px;text-align:center;font-weight:bold;">
+        ⚠️ Order &amp; Payment Due: Wednesday, June 18, 2026
+      </div>
+    </div>
+    <div style="background:#ece9e4;padding:14px;text-align:center;font-size:0.8rem;color:#666;border-radius:0 0 12px 12px;">
+      Questions? Contact Kerri Mokulehua · kerrimokulehua@gmail.com · 808-781-7096
+    </div>
+  </div>`;
+
+  // Send to respondent
+  GmailApp.sendEmail(data.email, '🌺 Your Ching Reunion T-Shirt Order Confirmation', '', {
+    htmlBody: emailBody,
+    name: 'Ching Family Reunion 2026'
+  });
+
+  // Send to manager
+  const managerBody = emailBody.replace('Hi <strong>' + data.firstName + '</strong>', 
+    'New order from <strong>' + data.firstName + ' ' + data.lastName + '</strong><br>Phone: ' + data.phone + '<br>Email: ' + data.email);
+  GmailApp.sendEmail(MANAGER_EMAIL, '🌺 New T-Shirt Order: ' + data.firstName + ' ' + data.lastName + ' — $' + Number(data.totalAmount).toFixed(2), '', {
+    htmlBody: managerBody,
+    name: 'Ching Reunion Order Tracker'
+  });
+
+  return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+----------- END APPS SCRIPT CODE -----------
+
+3. Replace YOUR_GOOGLE_SHEET_ID with your Google Sheet's ID (from the URL).
+4. Click Deploy → New Deployment → Web App.
+   - Execute as: Me
+   - Who has access: Anyone
+5. Copy the Web App URL.
+6. In THIS file, replace 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE' with that URL.
+
+======================================================================= -->
+
+</body>
+</html>
