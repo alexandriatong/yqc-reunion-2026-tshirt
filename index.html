@@ -7,24 +7,24 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --teal: #4a6fa5;
-    --teal-light: #6b8fc9;
-    --teal-dark: #2c4a7c;
+    --teal: #4a7c59;
+    --teal-light: #6ba57a;
+    --teal-dark: #1f4d34;
     --gold: #b07d2e;
     --gold-light: #d4a843;
-    --sand: #f5f4f2;
+    --sand: #f4f6f2;
     --coral: #b03020;
     --white: #ffffff;
     --text: #1a1a1a;
-    --muted: #4a5568;
-    --border: #a8a096;
-    --input-bg: #fafaf9;
-    --section-bg: #ece9e4;
+    --muted: #4a5a50;
+    --border: #9aaa9a;
+    --input-bg: #f9faf8;
+    --section-bg: #e8ede8;
     --error: #b03020;
-    --shadow: 0 4px 24px rgba(44,74,124,0.09);
+    --shadow: 0 4px 24px rgba(31,77,52,0.10);
   }
   html { font-size: 17px; }
-  *:focus-visible { outline: 3px solid #2c4a7c; outline-offset: 3px; }
+  *:focus-visible { outline: 3px solid #1f4d34; outline-offset: 3px; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     font-family: 'Lato', sans-serif;
@@ -37,7 +37,7 @@
 
   /* HEADER */
   .header {
-    background: linear-gradient(135deg, #1a2e50 0%, #2c4a7c 50%, #3d6494 100%);
+    background: linear-gradient(135deg, #0f2a1a 0%, #1f4d34 50%, #2d6647 100%);
     color: white;
     text-align: center;
     padding: 48px 24px 40px;
@@ -432,7 +432,7 @@
   .btn-primary {
     background: var(--teal-dark);
     color: white;
-    box-shadow: 0 4px 14px rgba(44,74,124,0.25);
+    box-shadow: 0 4px 14px rgba(31,77,52,0.25);
   }
   .btn-primary:hover { background: var(--teal); transform: translateY(-1px); }
   .btn-secondary {
@@ -547,9 +547,8 @@
 <!-- HEADER -->
 <div class="header">
   <div class="header-inner">
-    <div class="header-kanji">程</div>
-    <h1>Ching Yan Quong <span>Family Reunion</span></h1>
-    <p>T-Shirt Order Form</p>
+    <h1>Yan Quong Ching <span>Family Reunion</span></h1>
+    <p>2026 T-Shirt Order Form</p>
     <div class="header-badge">
       <span class="shirt-icon">👕</span>
       Order Deadline: Wednesday, June 18, 2026
@@ -856,7 +855,7 @@
 <script>
 // ===================== CONFIGURATION =====================
 // Replace with your deployed Google Apps Script Web App URL
-const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbxhrUyrj1XORNeD5He8aSVJfhj5-H4OSdqHNxAzMWmQk94sFoWwCFQRDG1dFWQSv5R4iQ/exec';
 
 // Data manager email — receives a copy of every order
 const MANAGER_EMAIL = 'kerrimokulehua@gmail.com';
@@ -1145,7 +1144,7 @@ function doPost(e) {
 
   const emailBody = `
   <div style="font-family:Georgia,serif;max-width:580px;margin:0 auto;color:#2a2a2a;">
-    <div style="background:linear-gradient(135deg,#1a2e50,#2c4a7c);color:white;padding:32px;text-align:center;border-radius:12px 12px 0 0;">
+    <div style="background:linear-gradient(135deg,#0f2a1a,#1f4d34);color:white;padding:32px;text-align:center;border-radius:12px 12px 0 0;">
       <div style="font-size:2rem;margin-bottom:8px;">程</div>
       <h1 style="font-size:1.6rem;margin:0 0 4px;">Ching Family Reunion 2026</h1>
       <p style="margin:0;opacity:0.85;font-size:0.95rem;">T-Shirt Order Confirmation</p>
@@ -1154,7 +1153,7 @@ function doPost(e) {
       <p style="margin:0 0 18px;">Hi <strong>${data.firstName}</strong>,</p>
       <p style="margin:0 0 20px;">Your t-shirt order has been received! Here's a summary:</p>
       <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
-        <thead><tr style="background:#2c4a7c;color:white;">
+        <thead><tr style="background:#1f4d34;color:white;">
           <th style="padding:8px 12px;text-align:left;">Size</th>
           <th style="padding:8px 12px;text-align:left;">Qty</th>
           <th style="padding:8px 12px;text-align:left;">Subtotal</th>
