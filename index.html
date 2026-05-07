@@ -855,10 +855,10 @@
 <script>
 // ===================== CONFIGURATION =====================
 // Replace with your deployed Google Apps Script Web App URL
-const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbzVDLSnP-DnwRzoWeSoMsC6dLSuHZRqQWjoKwpbb-SpIp_320z_g7tgm3N1eIiFRjoX9A/exec';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbynWAEAUsNzp5Ie71UpYA2_1APBYsBaqrpI4yLhTaZ2KnhO2IR4sjsUiTuLdKkv643J/exec';
 
 // Data manager email — receives a copy of every order
-const MANAGER_EMAIL = 'alexandriatong@gmail.com';
+const MANAGER_EMAIL = 'kerrimokulehua@gmail.com';
 
 // ===================== SIZES =====================
 const SIZES = ['S','M','L','XL','XXL','XXXL'];
@@ -1023,18 +1023,31 @@ async function submitOrder() {
       managerEmail: MANAGER_EMAIL
     };
 
-    // Send to Google Sheet (skip if URL not configured)
+    // Send to Google Sheet via GET (avoids no-cors header stripping issue)
     const isConfigured = GOOGLE_SHEET_URL && GOOGLE_SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
     if (isConfigured) {
       try {
-        await fetch(GOOGLE_SHEET_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(submission)
+        const params = new URLSearchParams({
+          submittedAt:  submission.submittedAt,
+          firstName:    submission.firstName,
+          lastName:     submission.lastName,
+          email:        submission.email,
+          phone:        submission.phone,
+          qty_S:        submission.qty_S,
+          qty_M:        submission.qty_M,
+          qty_L:        submission.qty_L,
+          qty_XL:       submission.qty_XL,
+          qty_XXL:      submission.qty_XXL,
+          qty_XXXL:     submission.qty_XXXL,
+          totalShirts:  submission.totalShirts,
+          totalAmount:  submission.totalAmount,
+          managerEmail: submission.managerEmail
+        });
+        await fetch(GOOGLE_SHEET_URL + '?' + params.toString(), {
+          method: 'GET',
+          mode: 'no-cors'
         });
       } catch (fetchErr) {
-        // Log but don't block — sheet sync failure shouldn't stop the user
         console.warn('Sheet sync failed:', fetchErr);
       }
     } else {
