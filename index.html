@@ -979,7 +979,14 @@ function clearSubmitError() {
   if (el) el.style.display = 'none';
 }
 
+let _orderSubmitted = false;
+
 async function submitOrder() {
+  if (_orderSubmitted) {
+    console.warn('Submission already fired — ignoring duplicate call.');
+    return;
+  }
+  _orderSubmitted = true;
   clearSubmitError();
   const submitBtn = document.getElementById('submitBtn');
   submitBtn.disabled = true;
@@ -1086,6 +1093,7 @@ async function submitOrder() {
 
 // ===================== RESET =====================
 function resetForm() {
+  _orderSubmitted = false;
   document.getElementById('firstName').value = '';
   document.getElementById('lastName').value  = '';
   document.getElementById('email').value     = '';
